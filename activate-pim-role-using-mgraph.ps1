@@ -1,8 +1,15 @@
 <#
     Script to activate PIM role using MgGraph
-	Author: Arjan Cornelissen
+
+    Author: Arjan Cornelissen
 	Editor: bosstuff
 #>
+param (
+    # height of largest column without top bar
+    [Parameter(Mandatory=$true)]
+    [string]$roleReq,  
+)
+
 # Connect via device authentication and get the TenantID and User ObjectID
 Connect-MgGraph -UseDeviceAuthentication
 $context = Get-MgContext
@@ -12,7 +19,7 @@ $currentUser = (Get-MgUser -UserId $context.Account).Id
 $myRoles = Get-MgRoleManagementDirectoryRoleEligibilitySchedule -ExpandProperty RoleDefinition -All -Filter "principalId eq '$currentuser'"
 
 # Get SharePoint admin role info
-$myRole = $myroles | Where-Object {$_.RoleDefinition.DisplayName -eq "Intune Administrator"}
+$myRole = $myroles | Where-Object {$_.RoleDefinition.DisplayName -eq $roleReq}
 
 # Setup parameters for activation
 $params = @{
@@ -20,14 +27,15 @@ $params = @{
     PrincipalId = $myRole.PrincipalId
     RoleDefinitionId = $myRole.RoleDefinitionId
     DirectoryScopeId = $myRole.DirectoryScopeId
-    Justification = "Enable Intune Admin Role for Autopilot Enroll"
+    Justification = "Enable Admin Role for Admin Task on MgGraph"
     ScheduleInfo = @{
         StartDateTime = Get-Date
         Expiration = @{
             Type = "AfterDuration"
-            Duration = "PT4H"
+            Duration = "PT2H"
         }
     }
 }
+
 # Activate the role
 New-MgRoleManagementDirectoryRoleAssignmentScheduleRequest -BodyParameter $params
