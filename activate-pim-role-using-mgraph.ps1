@@ -7,7 +7,7 @@
 param (
     # height of largest column without top bar
     [Parameter(Mandatory=$true)]
-    [string]$roleReq,  
+    [string]$roleReq  
 )
 
 # Connect via device authentication and get the TenantID and User ObjectID
