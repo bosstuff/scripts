@@ -1,7 +1,6 @@
 <#
     Script to activate PIM role using MgGraph
-
-    Author: Arjan Cornelissen
+	Author: Arjan Cornelissen
 	Editor: bosstuff
 #>
 # Connect via device authentication and get the TenantID and User ObjectID
