@@ -1,0 +1,1 @@
+powershell.exe [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Set-ExecutionPolicy Bypass; Install-Script -name Get-WindowsAutopilotInfo -Force; Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned; Get-WindowsAutopilotInfo -Online
