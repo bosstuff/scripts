@@ -1,5 +1,10 @@
-# AUTHOR: Arjan Cornelissen
-# Connect via deviceauthentication and get the TenantID and User ObjectID
+<#
+    Script to activate PIM role using MgGraph
+
+    Author: Arjan Cornelissen
+	Editor: bosstuff
+#>
+# Connect via device authentication and get the TenantID and User ObjectID
 Connect-MgGraph -UseDeviceAuthentication
 $context = Get-MgContext
 $currentUser = (Get-MgUser -UserId $context.Account).Id
@@ -24,11 +29,6 @@ $params = @{
             Duration = "PT4H"
         }
     }
-    TicketInfo = @{
-        TicketNumber = TS46283
-        TicketSystem = "FreshServiceSysytem"
-    }
 }
-
 # Activate the role
 New-MgRoleManagementDirectoryRoleAssignmentScheduleRequest -BodyParameter $params
